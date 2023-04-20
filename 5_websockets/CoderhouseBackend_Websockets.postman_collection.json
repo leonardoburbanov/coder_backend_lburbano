@@ -1,0 +1,67 @@
+{
+	"info": {
+		"_postman_id": "47da3c80-fd62-42b0-b91b-f383d39bc1da",
+		"name": "CoderhouseBackend_Websockets",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1606121"
+	},
+	"item": [
+		{
+			"name": "products : test3 - add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"title\":\"product A106\",\r\n      \"description\":\"product X\",\r\n      \"price\":51.88,\r\n      \"thumbnail\":[],\r\n      \"code\":\"A106\",\r\n      \"stock\":35,   \r\n      \"status\":false,\r\n      \"category\":\"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "products : test3 - delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products/12",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"12"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
