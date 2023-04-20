@@ -1,37 +1,33 @@
 const socket = io();
 
-/* socket.on('log', data=>{
-    console.log(data);
-})
+socket.on('products', data => {
+    // Get a reference to the table body element
+    var tableBody = document.querySelector('table tbody');
 
-socket.emit('message', 'Nuevo ingreso'); */
+    // Clear the content of the table body
+    tableBody.innerHTML = '';
+  
+    // Loop through the array of products and add them to the table
+    data.forEach(function(product) {
+      // Create a new table row element
+      var row = document.createElement('tr');
 
+      // Create a new table cell element for each property
+      var titleCell = document.createElement('td');
+      var descriptionCell = document.createElement('td');
+      var priceCell = document.createElement('td');
 
-const input = document.getElementById('textbox');
-const log = document.getElementById('log');
+      // Set the text content of each table cell to the corresponding property
+      titleCell.textContent = product.title;
+      descriptionCell.textContent = product.description;
+      priceCell.textContent = product.price;
 
-/* input.addEventListener('keyup', evt =>{
-    let {key} = evt;
-    evt.target.value = '';
-    socket.emit('message1', key)
-})
-socket.on('log',data=>{
-    log.innerHTML += data;
-}) */
+      // Append the table cells to the table row
+      row.appendChild(titleCell);
+      row.appendChild(descriptionCell);
+      row.appendChild(priceCell);
 
-input.addEventListener('keyup', evt =>{
-    if(evt.key === 'Enter'){
-        socket.emit('message2',input.value)
-        input.value = '';
-    }
-})
-
-socket.on('log',data=>{
-
-    let logs = '';
-
-    data.logs.forEach(log => {
-    logs +=   `${ log.socketid } dice: ${ log.mesage} <br/>`      
+      // Append the table row to the table body
+      tableBody.appendChild(row);
     });
-    log.innerHTML = logs;    
-})
+  });

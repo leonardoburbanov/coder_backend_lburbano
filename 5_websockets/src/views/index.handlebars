@@ -1,0 +1,35 @@
+<style>
+  table {
+  width: 60%;
+    }
+
+    table, th, td {
+    border: 1px solid lightgrey;
+    border-collapse: collapse;
+    }
+
+    th, td {
+    padding: 2px 4px;
+    }
+</style>
+
+<div>
+    <table>
+  <thead>
+    <tr>
+      <th class="px-4 py-2">Title</th>
+      <th class="px-4 py-2">Description</th>
+      <th class="px-4 py-2">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+      <tr>
+        <td class="px-4 py-2">{{this.title}}</td>
+        <td class="px-4 py-2">{{this.description}}</td>
+        <td class="px-4 py-2">{{this.price}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+</div>
