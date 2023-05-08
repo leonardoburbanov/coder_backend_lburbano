@@ -6,6 +6,7 @@
 5. Se utiliza nodemon para levantar el servidor.
 
 # Iniciar
+0. En línea de comandos `cd .\6_p_integradora\`
 1. `npm install`
 2. `npm start`
 3. Para probar los endpoints utilizar la colección de postman
