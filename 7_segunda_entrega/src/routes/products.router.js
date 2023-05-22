@@ -31,7 +31,7 @@ router.get('/', async (req, res)=>{
     if(req.query.limit){
         limit = parseInt(req.query.limit)
     }else{
-        limit = 4
+        limit = 10
     }
     if(req.query.page){
         page = parseInt(req.query.page)
@@ -40,7 +40,11 @@ router.get('/', async (req, res)=>{
     }
     if(req.query.query){
         query=JSON.parse(req.query.query)
-        console.log(query)
+        if(query.status!=null || query.category!=null || query.stock!=null){
+            query = query
+        }else{
+            throw new Error("The query is not correct")
+        }
     }else{
         query={}
     }
@@ -61,7 +65,6 @@ router.get('/', async (req, res)=>{
         query: query,
         sort: sort
     }
-    console.log(params)
     result = await manager.getProducts(params)
     let products = result.docs;
     let nextLink=null;
@@ -134,7 +137,6 @@ router.get('/:idProduct', async (req,res)=>{
     const idProduct = req.params.idProduct;
 
     let product = await manager.getProductById(idProduct)
-    console.log(product)
     let response;
     if(!product){
         response = {

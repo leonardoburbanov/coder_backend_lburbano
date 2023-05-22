@@ -3,7 +3,7 @@ import handlebars from 'express-handlebars';
 import mongoose from 'mongoose';
 
 import __dirname from './utils.js';
-
+import viewRouter from "./routes/views.router.js";
 import productRouter from './routes/products.router.js';
 import cartRouter from './routes/carts.router.js';
 
@@ -28,3 +28,4 @@ const server = app.listen(PORT, ()=>{
 
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
+app.use("/", viewRouter);

@@ -68,11 +68,47 @@ router.post('/:idcart/product/:idproduct', async (req,res)=>{
     }
 })
 
+router.put('/:idcart/product/:idproduct', async (req,res)=>{
+    const idcart = req.params.idcart;
+    const idproduct = req.params.idproduct;
+    const quantity = req.body.quantity;
+    try {
+        let carts = await manager.updateProductInCart(idcart,idproduct,quantity)
+        res.send(carts)
+    }catch(error){
+        res.status(400).send({error:error.message})
+    }
+})
+
+
+router.delete('/:idcart/product/:idproduct', async (req,res)=>{
+    const idcart = req.params.idcart;
+    const idproduct = req.params.idproduct;
+    try {
+        let carts = await manager.deleteProductInCart(idcart,idproduct)
+        res.send(carts)
+    }catch(error){
+        res.status(400).send({error:error.message})
+    }
+})
+
 router.delete('/:idcart', async (req, res)=>{
     const idcart = req.params.idcart;
     try {
-        let cart_deleted = await manager.deleteCart(idcart)
-        res.send({cart_deleted})
+        let carts = await manager.deleteCart(idcart)
+        res.send({carts})
+    }catch(error){
+        res.status(400).send({error:error.message});
+    }
+
+})
+
+router.put('/:idcart', async (req, res)=>{
+    const idcart = req.params.idcart;
+    const newProducts = req.body;
+    try {
+        let carts = await manager.updateCart(idcart,newProducts)
+        res.send({carts})
     }catch(error){
         res.status(400).send({error:error.message});
     }
