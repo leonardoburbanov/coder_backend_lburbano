@@ -1,8 +1,7 @@
 # Consideraciones
 1. La base de datos se llama **ecommerce**
-2. Se han considerado las pruebas solicitadas en un archivo CoderhouseBackend_Segunda_Entrega_lburbano.postman_collection adjunto con una colección de Postman.
-3. La url base es: http://localhost:8080/
-4. Se utiliza nodemon para levantar el servidor.
+2. La url base es: http://localhost:8080/
+3. Se utiliza nodemon para levantar el servidor.
 
 # Iniciar
 0. En línea de comandos `cd .\7_segunda_entrega\`
@@ -18,6 +17,7 @@ Importante: No va a dejar que se registre otro usuario con este correo.
 
 * Adicional: Se implementó la vista http://localhost:8080/users a la que solo tiene acceso admin
 * Una vez que pasa el login redirige a products
+
 # Importante
 - Se ha colocado los ids de los carritos en el detalle por producto para añadir el producto a un carrito determinado. En el desafío esto queda abierto, pero ya que no se solicita crear un carrito atado a la sesión del usuario, se ha tomado esta medida.
 - Puedo añadir un producto a cualquier carrito disponible.
