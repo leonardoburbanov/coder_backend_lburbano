@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import userModel from '../models/User.model.js';
+import { createHash, validatePassword } from '../utils.js';
 
 const router = Router();
 
@@ -25,7 +26,7 @@ const adminUser = {
             return res.status(400).send({status:"error", error:"User already exists"});
         }
         const user = {
-            first_name, last_name, email, rol, age, password
+            first_name, last_name, email, rol, age, password: createHash(password)
         };
     
         const result = await userModel.create(user);
@@ -45,12 +46,15 @@ router.post('/login', async (req,res)=>{
         }
         res.send({status:"success", payload:req.res.user, message:"Primer logueo!!"})
     }else{
-        const user = await userModel.findOne({email,password})
+        const user = await userModel.findOne({email})
 
         if(!user){
             return res.status(400).send({status:"error", error:"Datos incorrectos"})
         }
-      
+        
+        const isValidPassword = validatePassword(password,user);
+        if(!isValidPassword) return res.status(400).send({status:"error", error:"Datos incorrectos"})
+        
         req.session.user = {
             name: `${user.first_name} ${user.last_name}`,
             email: user.email,
