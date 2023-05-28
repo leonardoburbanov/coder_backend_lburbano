@@ -2,6 +2,7 @@
 1. La base de datos se llama **ecommerce**
 2. La url base es: http://localhost:8080/
 3. Se utiliza nodemon para levantar el servidor.
+4. Los roles de creación pueden ser **user** o **admin**
 
 # Iniciar
 0. En línea de comandos `cd .\7_segunda_entrega\`
