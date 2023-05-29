@@ -5,7 +5,7 @@
 4. Los roles de creación pueden ser **user** o **admin**
 
 # Iniciar
-0. En línea de comandos `cd .\7_segunda_entrega\`
+0. En línea de comandos `cd .\8_login\`
 1. `npm install`
 2. `npm start`
 3. Para probar las vistas:

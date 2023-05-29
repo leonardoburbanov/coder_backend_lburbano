@@ -8,7 +8,8 @@ const schema = new mongoose.Schema({
     email:String,
     age:Number,
     password:String,
-    rol: String
+    rol: String,
+    githubProfile: { type: Object, required: false }
 })
 
 const userModel = mongoose.model(collection, schema);

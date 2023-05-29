@@ -3,12 +3,15 @@ import session from 'express-session';
 import handlebars from 'express-handlebars';
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
+import passport from 'passport';
 
 import __dirname from './utils.js';
 import viewRouter from "./routes/views.router.js";
 import sessionRouter from './routes/sessions.router.js';
 import productRouter from './routes/products.router.js';
 import cartRouter from './routes/carts.router.js';
+import initializePassport from './config/passport.config.js';
+
 
 const PORT = 8080;
 const MONGO = 'mongodb+srv://admin:4w2kSZgJ5TXC4IWy@leonardocoder.aiiriqo.mongodb.net/ecommerce?retryWrites=true&w=majority';
@@ -25,6 +28,10 @@ app.use(session({
     resave:false,
     saveUninitialized:false
 }))
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 const connection = mongoose.connect(MONGO);
 app.use(express.json());
