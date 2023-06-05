@@ -20,8 +20,8 @@ const initializePassport = () => {
     passport.use('register', new LocalStrategy(
         {passReqToCallback:true, usernameField:'email'}, 
         async (req, username, password, done) =>{
-            const { first_name, last_name, email,age } = req.body;
-            try {
+            const { first_name, last_name, email, rol, age } = req.body;
+            /*try {*/
                 //Here goes the auth strategy
                 if(username==adminUser.username){
                     console.log('El usuario ya existe')
@@ -35,12 +35,13 @@ const initializePassport = () => {
                     const user = {
                         first_name, last_name, email, rol, age, password: createHash(password)
                     };
-                    const result = await userModel.create(user);
+                    console.log(user)
+                    const result = await userService.create(user);
                     return done(null, result);
                 }
-            } catch (error) {
+            /*} catch (error) {
                 return done("Error al registrar el usuario: " + error);
-            }
+            }*/
         }
     ));
     passport.serializeUser((user,done)=>{
