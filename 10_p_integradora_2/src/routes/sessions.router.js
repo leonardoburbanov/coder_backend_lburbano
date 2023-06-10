@@ -42,6 +42,18 @@ router.get('/faillogin', async (req,res)=>{
 
 })
 
+
+router.get('/current', function(req, res) {
+    // Check if the user is authenticated
+    if (req.isAuthenticated()) {
+      // User is logged in, return the current user
+      res.json({ user: req.user });
+    } else {
+      // User is not logged in
+      res.status(401).json({ message: 'Unauthorized' });
+    }
+  });
+
 router.get('/github', passport.authenticate('github', {scope:['user:email']}), async (req,res)=>{
 })
 
