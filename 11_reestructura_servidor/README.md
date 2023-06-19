@@ -1,4 +1,5 @@
 # Consideraciones
+0. Se ha modificado la estructura de las carpetas y archivos en base al modelo de capas y se han colocado las variables de entorno de manera adecuada.
 1. La base de datos se llama **ecommerce**
 2. Se han considerado las pruebas solicitadas en un archivo CoderhouseBackend_Segunda_Entrega_lburbano.postman_collection adjunto con una colección de Postman.
 3. La url base es: http://localhost:8080/
