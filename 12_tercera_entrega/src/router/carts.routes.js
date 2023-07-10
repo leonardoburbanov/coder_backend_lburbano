@@ -13,5 +13,7 @@ router.put("/:idcart/product/:idproduct", cartsController.updateProductInCart);
 router.delete("/:idcart/product/:idproduct", cartsController.deleteProductInCart);
 router.delete("/:idcart", cartsController.deleteCart);
 router.put("/:idcart", cartsController.updateCart);
+router.post("/:idcart/purchase", cartsController.purchaseCart);
+
 
 export default router;

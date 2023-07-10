@@ -1,7 +1,7 @@
 import { Router } from "express";
-import productModel from "../models/products.js";
-import cartModel from "../models/carts.js";
-import userModel from '../models/User.model.js';
+import productModel from "../dao/models/products.model.js";
+import cartModel from "../dao/models/carts.model.js";
+import userModel from '../dao/models/User.model.js';
 
 const router = Router();
 
@@ -98,6 +98,11 @@ router.get("/carts/:idcart", async (req,res)=>{
     })
 
 })
+
+
+router.get("/chat",(req,res)=>{
+    res.render("chat");
+});
 
 export default router;
 

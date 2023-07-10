@@ -1,5 +1,5 @@
 import productsDaoMemory from "./products.dao.js";
-import cartModel from "../models/carts.js";
+import cartModel from "./models/carts.model.js";
 
 class CartsDaoMemory {
   deleteProductInCart = async (id_cart, id_product) => {

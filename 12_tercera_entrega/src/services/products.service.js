@@ -1,4 +1,4 @@
-import productsDaoMemory from "../persistence/products.dao.js";
+import productsDaoMemory from "../dao/products.dao.js";
 
 class ProductsService {
   getProducts(params) {

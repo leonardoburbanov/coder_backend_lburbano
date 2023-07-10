@@ -1,5 +1,8 @@
 import { response, request } from "express";
 import cartsService from "../services/carts.service.js";
+import productsService from "../services/products.service.js";
+import {v4 as uuidv4} from 'uuid';
+import TicketModel from "../dao/models/ticket.model.js";
 
 class Cart {
     constructor(products = []) {
@@ -99,6 +102,43 @@ class ProductsController {
             res.status(400).send({error:error.message});
         }
     
+    } 
+    purchaseCart = async (req, res) => {
+        try {
+            const cartId = req.params.id_cart;
+            const email = req.body.email;
+            const cart = await cartsService.getCartById(cartId);
+            if(cart){
+                if(!cart.products.length){
+                    return res.send("Please, add your products before to generate the purchase")
+                }
+                const ticketProducts = [];
+                const rejectedProducts = [];
+                for(let i=0; i<cart.products.length;i++){
+                    const cartProduct = cart.products[i];
+                    const productDB = await productsService.getProductById(cartProduct.id);
+                    if(cartProduct.quantity<=productDB.stock){
+                        ticketProducts.push(cartProduct);
+                    } else {
+                        rejectedProducts.push(cartProduct);
+                    }
+                }
+                console.log("ticketProducts",ticketProducts)
+                console.log("rejectedProducts",rejectedProducts)
+                const newTicket = {
+                    code:uuidv4(),
+                    purchase_datetime: new Date().toLocaleString(),
+                    amount:500,
+                    purchaser:email
+                }
+                const ticketCreated = await ticketsModel.create(newTicket);
+                res.send(ticketCreated)
+            } else {
+                res.send("Cart doesn't exist")
+            }
+        } catch (error) {
+            res.send(error.message)
+        }
     } 
 }
 

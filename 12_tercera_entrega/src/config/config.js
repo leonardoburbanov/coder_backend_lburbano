@@ -7,10 +7,11 @@ const MONGO_URL = process.env.MONGO_URL;
 const CORREO_ADMIN = process.env.CORREO_ADMIN;
 const PASSWORD_ADMIN = process.env.PASSWORD_ADMIN;
 const SECRET = process.env.SECRET;
-
+const PERSISTENCE = process.env.PERSISTENCE
 export const config = {
     server: {
-        port: PORT
+        port: PORT,
+        persistence: PERSISTENCE
     },
     mongo: {
         url: MONGO_URL

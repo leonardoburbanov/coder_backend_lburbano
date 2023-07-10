@@ -1,4 +1,4 @@
-import cartsDaoMemory from "../persistence/carts.dao.js";
+import cartsDaoMemory from "../dao/carts.dao.js";
 
 class CartsService {
     deleteProductInCart(id_cart,id_product) {

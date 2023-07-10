@@ -13,6 +13,9 @@ import cartRouter from './router/carts.routes.js';
 import initializePassport from './config/passport.config.js';
 import { config } from "./config/config.js";
 
+import {Server} from "socket.io";
+import chatService from "./services/chat.service.js"
+
 const PORT = config.server.port;
 const MONGO = config.mongo.url;
 const SECRET = config.session.secret;
@@ -47,7 +50,35 @@ const server = app.listen(PORT, ()=>{
     console.log('Servidor funcionando en el puerto: ' + PORT);
 })
 
+const socketServer = new Server(server);
+server.on('error', error => console.log(`Error in server ${error}`));
+
+
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 app.use("/", viewRouter);
 app.use('/api/session', sessionRouter);
+
+socketServer.use((socket, next) => {
+  if (socket.request.user && socket.request.user.role === 'user') {
+    return next();
+  }
+  // If the user is not authorized, reject the connection
+  next(new Error('Unauthorized'));
+});
+
+
+socketServer.on("connection",async(socketConnected)=>{
+    console.log(`Nuevo cliente conectado ${socketConnected.id}`);
+    const messages = await chatService.getMessages();
+    socketServer.emit("msgHistory", messages);
+    //capturamos un evento del socket del cliente
+    socketConnected.on("message",async(data)=>{
+        //recibimos el msg del cliente y lo guardamos en el servidor con el id del socket.
+        await chatService.addMessage(data);
+        const messages = await chatService.getMessages();
+        // messages.push({socketId: socketConnected.id, message: data});
+        //Enviamos todos los mensajes a todos los clientes
+        socketServer.emit("msgHistory", messages);
+    });
+});
