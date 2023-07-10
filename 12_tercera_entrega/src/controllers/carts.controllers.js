@@ -3,6 +3,7 @@ import cartsService from "../services/carts.service.js";
 import productsService from "../services/products.service.js";
 import {v4 as uuidv4} from 'uuid';
 import TicketModel from "../dao/models/ticket.model.js";
+import { sendMessage } from "../messages/sms/twilio.js"
 
 class Cart {
     constructor(products = []) {
@@ -124,8 +125,7 @@ class ProductsController {
                         rejectedProducts.push(cartProduct);
                     }
                 }
-                //console.log("ticketProducts",ticketProducts)
-                //console.log("rejectedProducts",rejectedProducts)
+
                 const newTicket = {
                     code:uuidv4(),
                     purchase_datetime: new Date().toLocaleString(),
@@ -134,6 +134,7 @@ class ProductsController {
                     products: ticketProducts
                 }
                 const ticketCreated = await TicketModel.create(newTicket);
+                //await sendMessage(`The ticket with your purchase ${newTicket.code} was successfully created at ${newTicket.purchase_datetime}!`)
                 res.send(ticketCreated)
             } else {
                 res.send("Cart doesn't exist")

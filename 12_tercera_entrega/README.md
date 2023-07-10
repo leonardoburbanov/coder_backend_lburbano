@@ -24,7 +24,7 @@ Creado.
 Se crearon pruebas en la colección de Postman para esta validación, véase **test3**
 
 #### Envía SMS, envía correos:
-El sistema envía correos al momento de registrarse un usuario. El sistema envía un sms, al momento de realizar una compra.
+El sistema envía correos al momento de registrarse un usuario. El sistema envía un sms, al momento de realizar una compra. En el caso del SMS en **carts.controllers.js** en la línea 138 se encuentra comentado para efectos de pruebas. 
 
 # Consideraciones
 0. Se ha modificado la estructura de las carpetas y archivos en base al modelo de capas y se han colocado las variables de entorno de manera adecuada.
