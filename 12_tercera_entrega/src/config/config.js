@@ -22,5 +22,12 @@ export const config = {
     },
     session: {
         secret: SECRET
+    },    
+    gmail:{
+        adminAccount: process.env.ADMIN_EMAIL,
+        adminPass: process.env.ADMIN_PASS
+    },
+    business:{
+        ecommerceName: process.env.ECOMMERCE_NAME
     }
 }

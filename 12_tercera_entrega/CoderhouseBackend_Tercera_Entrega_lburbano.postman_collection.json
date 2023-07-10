@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "4aeab85e-8e4f-415c-a735-76d4956210eb",
-		"name": "CoderhouseBackend_Segunda_Entrega_lburbano",
+		"_postman_id": "db0ba70d-c047-413b-ab32-27bf6a3c74f1",
+		"name": "CoderhouseBackend_Tercera_Entrega_lburbano",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1606121"
 	},
@@ -283,7 +283,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/carts/646bcbc51ccdb514e172f5ae/product/646585f04013968fb69fc7fa",
+							"raw": "localhost:8080/api/carts/646b919fc9fc74f4ddcfd112/product/646585f04013968fb69fc7fa",
 							"host": [
 								"localhost"
 							],
@@ -291,7 +291,7 @@
 							"path": [
 								"api",
 								"carts",
-								"646bcbc51ccdb514e172f5ae",
+								"646b919fc9fc74f4ddcfd112",
 								"product",
 								"646585f04013968fb69fc7fa"
 							]
@@ -317,7 +317,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/carts/646bcbc51ccdb514e172f5ae",
+							"raw": "localhost:8080/api/carts/646b919fc9fc74f4ddcfd112",
 							"host": [
 								"localhost"
 							],
@@ -325,7 +325,7 @@
 							"path": [
 								"api",
 								"carts",
-								"646bcbc51ccdb514e172f5ae"
+								"646b919fc9fc74f4ddcfd112"
 							]
 						}
 					},
@@ -346,7 +346,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/carts/646bcbc51ccdb514e172f5ae/product/646585f04013968fb69fc7fa",
+							"raw": "localhost:8080/api/carts/646b919fc9fc74f4ddcfd112/product/646585f04013968fb69fc7fa",
 							"host": [
 								"localhost"
 							],
@@ -354,7 +354,7 @@
 							"path": [
 								"api",
 								"carts",
-								"646bcbc51ccdb514e172f5ae",
+								"646b919fc9fc74f4ddcfd112",
 								"product",
 								"646585f04013968fb69fc7fa"
 							]
@@ -377,7 +377,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/carts/646bcbc51ccdb514e172f5ae",
+							"raw": "localhost:8080/api/carts/646b919fc9fc74f4ddcfd112",
 							"host": [
 								"localhost"
 							],
@@ -385,7 +385,7 @@
 							"path": [
 								"api",
 								"carts",
-								"646bcbc51ccdb514e172f5ae"
+								"646b919fc9fc74f4ddcfd112"
 							]
 						}
 					},
@@ -406,7 +406,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/carts/646bcbc51ccdb514e172f5ae",
+							"raw": "localhost:8080/api/carts/648fd332020c406b50599ffc",
 							"host": [
 								"localhost"
 							],
@@ -414,7 +414,7 @@
 							"path": [
 								"api",
 								"carts",
-								"646bcbc51ccdb514e172f5ae"
+								"648fd332020c406b50599ffc"
 							]
 						}
 					},
@@ -427,7 +427,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quantity\":15\r\n}",
+							"raw": "{\r\n    \"quantity\":10\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -435,7 +435,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/carts/646bcbc51ccdb514e172f5ae/product/646586204013968fb69fc803",
+							"raw": "localhost:8080/api/carts/648fd332020c406b50599ffc/product/646585f04013968fb69fc7fa",
 							"host": [
 								"localhost"
 							],
@@ -443,11 +443,45 @@
 							"path": [
 								"api",
 								"carts",
-								"646bcbc51ccdb514e172f5ae",
+								"648fd332020c406b50599ffc",
 								"product",
-								"646586204013968fb69fc803"
+								"646585f04013968fb69fc7fa"
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "purchase: test3",
+			"item": [
+				{
+					"name": "add purchase with cart Id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/carts/646b919fc9fc74f4ddcfd112/purchase",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"646b919fc9fc74f4ddcfd112",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tickets",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
