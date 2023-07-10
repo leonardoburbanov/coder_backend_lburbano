@@ -3,7 +3,6 @@ import chatModel from "./models/chat.model.js";
 class ChatDaoMemory {
     async addMessage(object){
         try {
-            console.log(object)
             const data = await chatModel.create(object);
             const response = JSON.parse(JSON.stringify(data));
             return response;

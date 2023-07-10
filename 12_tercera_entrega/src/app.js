@@ -23,7 +23,7 @@ const SECRET = config.session.secret;
 const app = express();
 app.use(express.static(__dirname+'/public'));
 
-app.use(session({
+const sessionMiddleware = session({
     store: new MongoStore({
         mongoUrl: MONGO,
         ttl:3600
@@ -31,7 +31,9 @@ app.use(session({
     secret:SECRET,
     resave:false,
     saveUninitialized:false
-}))
+})
+
+app.use(sessionMiddleware)
 
 initializePassport();
 app.use(passport.initialize());
@@ -52,26 +54,33 @@ const server = app.listen(PORT, ()=>{
 
 const socketServer = new Server(server);
 server.on('error', error => console.log(`Error in server ${error}`));
+const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
+socketServer.use(wrap(sessionMiddleware));
+
+socketServer.use((socket, next) => {
+    const session = socket.request.session;
+    console.log(session)
+    if (session && session.user.rol == "user") {
+      next();
+    } else {
+        console.log("unauthorized")
+      next(new Error("unauthorized"));
+    }
+  });
 
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 app.use("/", viewRouter);
 app.use('/api/session', sessionRouter);
 
-socketServer.use((socket, next) => {
-  if (socket.request.user && socket.request.user.role === 'user') {
-    return next();
-  }
-  // If the user is not authorized, reject the connection
-  next(new Error('Unauthorized'));
-});
 
 
 socketServer.on("connection",async(socketConnected)=>{
     console.log(`Nuevo cliente conectado ${socketConnected.id}`);
     const messages = await chatService.getMessages();
     socketServer.emit("msgHistory", messages);
+
     //capturamos un evento del socket del cliente
     socketConnected.on("message",async(data)=>{
         //recibimos el msg del cliente y lo guardamos en el servidor con el id del socket.

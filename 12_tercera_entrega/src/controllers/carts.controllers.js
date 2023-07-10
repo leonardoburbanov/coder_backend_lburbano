@@ -4,6 +4,7 @@ import productsService from "../services/products.service.js";
 import {v4 as uuidv4} from 'uuid';
 import TicketModel from "../dao/models/ticket.model.js";
 import { sendMessage } from "../messages/sms/twilio.js"
+import { ticketConfirmation } from '../messages/email/nodemailer.js';
 
 class Cart {
     constructor(products = []) {
@@ -135,6 +136,8 @@ class ProductsController {
                 }
                 const ticketCreated = await TicketModel.create(newTicket);
                 //await sendMessage(`The ticket with your purchase ${newTicket.code} was successfully created at ${newTicket.purchase_datetime}!`)
+                let messageTicketConfirmation = `The ticket with your purchase ${newTicket.code} was successfully created at ${newTicket.purchase_datetime}!`
+                await ticketConfirmation(email,messageTicketConfirmation)
                 res.send(ticketCreated)
             } else {
                 res.send("Cart doesn't exist")

@@ -26,6 +26,15 @@ const emailTemplate =
 <a href="http://localhost:8080/">Explorar</a>
 </div>`;
 
+
+const ticketTemplate = 
+`<div>
+<h1>Wellcome!!</h1>
+<img src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/portals_3/2x1_SuperMarioHub.jpg" style="width:250px"/>
+<p>You can start using our services</p>
+<a href="http://localhost:8080/">Explorar</a>
+</div>`;
+
 const registerConfirmation = async(to_email)=>{
     let result = await transporter.sendMail({
         from: ecommerceName,
@@ -35,4 +44,15 @@ const registerConfirmation = async(to_email)=>{
     })
     return result
 }
-export { registerConfirmation }
+
+
+const ticketConfirmation = async(to_email,emailMessage)=>{
+    let result = await transporter.sendMail({
+        from: ecommerceName,
+        to: to_email,
+        subject: "Ticket confirmation",
+        text: emailMessage
+    })
+    return result
+}
+export { registerConfirmation, ticketConfirmation }
