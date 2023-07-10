@@ -15,7 +15,7 @@ La ruta modificada es http://localhost:8080/api/session/current, el DTO se utili
 
 #### Los endpoints se encuentran protegidos por roles:
 * **Realizar un middleware que pueda trabajar en conjunto con la estrategia “current” para hacer un sistema de autorización y delimitar el acceso a dichos endpoints.**
-En /middlewares/auth.js se puede encontrar el desarrollo del middleware que se utiliza en los routers tanto de "products" y "carts". En el caso del servidor de Chat, se implemento en "app.js"
+En /middlewares/auth.js se puede encontrar el desarrollo del middleware que se utiliza en los routers tanto de "products" y "carts". En el caso del servidor de Chat, se implemento en "app.js". En el caso de carts, por motivos de pruebas se comentó la sección de añadir un produycto al carrito, para no tener problemas en las pruebas con Postman.
 
 #### El carrito sólo compra los productos en stock. El ticket se genera con los datos de compra.*
 * **Crear un modelo Ticket el cual contará con todas las formalizaciones de la compra.**
