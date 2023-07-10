@@ -11,13 +11,13 @@ class CartsDaoMemory {
         let productsInCart = cart_found[0].products;
         const productIndex = productsInCart.findIndex(product => product.product._id == id_product)
         if(productIndex !== -1){
-            productsInCart.splice(productIndex)
+            productsInCart.splice(productIndex,1)
         }else{
             throw Error('Product does not exists in Cart.');
         }
         await cartModel.updateOne({_id:id_cart},{$set:{products:productsInCart}});
-        let carts = this.getCarts();
-        return carts
+        let cart = await cartModel.find({_id:id_cart});
+        return cart
         }
   }
   addProductInCart = async (id_cart, id_product) => {
@@ -42,8 +42,8 @@ class CartsDaoMemory {
               productsInCart.push(product)
           }
           await cartModel.updateOne({_id:id_cart},{$set:{products:productsInCart}});
-          let carts = this.getCarts();
-          return carts
+          let cart = await cartModel.find({_id:id_cart});
+          return cart
           }
       }
       

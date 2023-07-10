@@ -105,7 +105,7 @@ class ProductsController {
     } 
     purchaseCart = async (req, res) => {
         try {
-            const cartId = req.params.id_cart;
+            const cartId = req.params.idcart;
             const email = req.body.email;
             const cart = await cartsService.getCartById(cartId);
             if(cart){
@@ -116,22 +116,24 @@ class ProductsController {
                 const rejectedProducts = [];
                 for(let i=0; i<cart.products.length;i++){
                     const cartProduct = cart.products[i];
-                    const productDB = await productsService.getProductById(cartProduct.id);
+                    const productDB = await productsService.getProductById(cartProduct.product._id);
                     if(cartProduct.quantity<=productDB.stock){
+                        await cartsService.deleteProductInCart(cartId,cartProduct.product._id.toString())
                         ticketProducts.push(cartProduct);
                     } else {
                         rejectedProducts.push(cartProduct);
                     }
                 }
-                console.log("ticketProducts",ticketProducts)
-                console.log("rejectedProducts",rejectedProducts)
+                //console.log("ticketProducts",ticketProducts)
+                //console.log("rejectedProducts",rejectedProducts)
                 const newTicket = {
                     code:uuidv4(),
                     purchase_datetime: new Date().toLocaleString(),
                     amount:500,
-                    purchaser:email
+                    purchaser:email,
+                    products: ticketProducts
                 }
-                const ticketCreated = await ticketsModel.create(newTicket);
+                const ticketCreated = await TicketModel.create(newTicket);
                 res.send(ticketCreated)
             } else {
                 res.send("Cart doesn't exist")

@@ -3,10 +3,14 @@ import { Router } from 'express';
 //import { createHash, validatePassword } from '../utils.js';
 import passport from 'passport';
 import usersService from '../services/users.service.js';
+import { registerConfirmation } from '../messages/email/nodemailer.js';
 
 const router = Router();
 
 router.post('/register', passport.authenticate('register', { failureRedirect:'/failregister'} ),async (req, res) =>{
+    let to_email = req.user.email
+    let result = await registerConfirmation(to_email)
+    console.log('Email result: ',result)
     res.send({status:"success", message:"User registered"});
 })
 
@@ -17,13 +21,12 @@ router.get('/failregister', async (req,res)=>{
 
 router.post('/login', passport.authenticate('login',{failureRedirect:'/api/session/faillogin'}), async (req,res)=>{
     if(!req.user) return res.status(400).send({status:"error", error: 'Invalid credentials'});
-    let user = {
+    req.session.user = {
         name: `${req.user.first_name} ${req.user.last_name}`,
         email: req.user.email,
         age: req.user.age,
         rol: req.user.rol
     }
-    req.session.user = await usersService.getPublicUser(user)
 
     res.send({status:"success", payload:req.user, message:"Primer logueo!!"})
 })
@@ -36,11 +39,12 @@ router.get('/faillogin', async (req,res)=>{
 })
 
 
-router.get('/current', function(req, res) {
+router.get('/current', async function(req, res) {
     // Check if the user is authenticated
     if (req.isAuthenticated()) {
       // User is logged in, return the current user
-      res.json({ user: req.user });
+      let publicUser = await usersService.getPublicUser(req.user)
+      res.json({ user: publicUser });
     } else {
       // User is not logged in
       res.status(401).json({ message: 'Unauthorized' });

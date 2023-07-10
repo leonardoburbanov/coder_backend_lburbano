@@ -18,7 +18,6 @@ const collection = 'products';
 
 
 const schema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     title:{
         type:String,
         require:true

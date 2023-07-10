@@ -1,7 +1,7 @@
 import { UsersRepository } from "../repository/users.repository.js";
 
 class UsersService {
-  getPublicUser(user) {
+  async getPublicUser(user) {
     let usersRepository = new UsersRepository()
     return usersRepository.getPublicUser(user);
   }

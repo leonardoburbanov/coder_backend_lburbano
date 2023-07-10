@@ -11,8 +11,18 @@ const schema = new mongoose.Schema({
    },
    amount: Number,
    purchaser: String,
-   //password: String
-
+   products:{
+      type: [
+          {
+              product: {
+                  type: mongoose.Schema.Types.ObjectId,
+                  ref:"products"
+              },
+              quantity: Number
+          }
+      ],
+      default: []
+  }
 });
 const TicketModel = mongoose.model(collection, schema);
 

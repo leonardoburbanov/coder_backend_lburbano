@@ -1,9 +1,9 @@
 import nodemailer from "nodemailer";
-import { options } from "./options.js";
+import { config } from "../../config/config.js";
 
-const adminEmail = options.gmail.GMAIL_USER;
-const adminPass = options.gmail.GMAIL_PASSWORD;
-const ecommerceName = options.gmail.ECOMMERCE_NAME;
+const adminEmail = config.gmail.adminAccount;
+const adminPass = config.gmail.adminPass;
+const ecommerceName = config.business.ECOMMERCE_NAME;
 
 const transporter = nodemailer.createTransport({
     host:"smtp.gmail.com",
@@ -23,16 +23,16 @@ const emailTemplate =
 <h1>Wellcome!!</h1>
 <img src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/portals_3/2x1_SuperMarioHub.jpg" style="width:250px"/>
 <p>You can start using our services</p>
-<a href="https://localhost:8080/">Explorar</a>
+<a href="http://localhost:8080/">Explorar</a>
 </div>`;
 
-const registerConfirmation = async(to_email)
-
-    await transporter.sendMail({
+const registerConfirmation = async(to_email)=>{
+    let result = await transporter.sendMail({
         from: ecommerceName,
         to: to_email,
         subject: "Successfull registration!",
         html: emailTemplate
     })
-
+    return result
+}
 export { registerConfirmation }

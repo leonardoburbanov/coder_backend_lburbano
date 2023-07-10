@@ -11,7 +11,7 @@ Se incluyen los conceptos mencionados.
 Seleccionamos el DAO a través de una variable de entorno PERSISTENCE.
 
 * **Modificar la ruta  /current Para evitar enviar información sensible, enviar un DTO del usuario sólo con la información necesaria.**
-La ruta modificada es /profile, el DTO se utilizó al momendo de crear el usuario de la sesión, dentro de la vista se envía solo la información no sensible.
+La ruta modificada es http://localhost:8080/api/session/current, el DTO se utilizó a través de users.service.js en sessions.routes.js.
 
 #### Los endpoints se encuentran protegidos por roles:
 * **Realizar un middleware que pueda trabajar en conjunto con la estrategia “current” para hacer un sistema de autorización y delimitar el acceso a dichos endpoints.**
