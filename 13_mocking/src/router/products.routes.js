@@ -9,7 +9,7 @@ const productsController = new ProductsController();
 
 router.get("/", productsController.getProducts);
 router.get("/:idProduct", productsController.getProductById);
-router.post("/", adminMiddleware, productsController.addProduct);
+router.post("/", productsController.addProduct);
 router.put("/:idProduct", adminMiddleware, productsController.updateProduct);
 router.delete("/:idProduct", adminMiddleware, productsController.deleteProduct);
 

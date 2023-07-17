@@ -1,5 +1,7 @@
-import { response, request } from "express";
 import productsService from "../services/products.service.js";
+import { CustomError } from "../services/errors/customError.service.js";
+import { EError } from "../enums/EError.js";
+import { generateProductErrorInfo } from "../services/errors/productErrorInfo.error.js";
 
 class Product {
     constructor(title, description, price, thumbnail = null, code, stock, status = true, category) {
@@ -114,12 +116,18 @@ class ProductsController {
     const {title, description, price, thumbnail, code, stock, status , category} = req.body;
     try {
         let product = new Product(title, description, price, thumbnail, code, stock, status , category);
-        let products = await productsService.addProduct(product);
+        let new_product = await productsService.addProduct(product);
         res.send({
-            data:product,
+            data:new_product,
             message:"Product created"
         });
     }catch(error){
+        await CustomError.createError({
+            name: "Product create error",
+            cause: generateProductErrorInfo(req.body),
+            message: "Product create error",
+            errorCode: EError.INVALID_JSON
+        });
         res.status(400).send({error:error.message});
         }
     }

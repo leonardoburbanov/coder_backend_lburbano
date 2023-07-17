@@ -9,12 +9,17 @@ import __dirname from './utils.js';
 import viewRouter from "./router/views.routes.js";
 import sessionRouter from './router/sessions.routes.js';
 import productRouter from './router/products.routes.js';
+
+import mockingRouter from './router/mocking.routes.js';
+
 import cartRouter from './router/carts.routes.js';
 import initializePassport from './config/passport.config.js';
 import { config } from "./config/config.js";
 
 import {Server} from "socket.io";
 import chatService from "./services/chat.service.js"
+
+import { errorHandler } from "./middlewares/errohandler.middleware.js";
 
 const PORT = config.server.port;
 const MONGO = config.mongo.url;
@@ -73,8 +78,8 @@ app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 app.use("/", viewRouter);
 app.use('/api/session', sessionRouter);
-
-
+app.use('/mockingproducts', mockingRouter);
+app.use(errorHandler);
 
 socketServer.on("connection",async(socketConnected)=>{
     console.log(`Nuevo cliente conectado ${socketConnected.id}`);

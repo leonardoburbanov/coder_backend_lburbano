@@ -2,7 +2,7 @@ import productModel from "./models/products.model.js";
 
 class ProductsDaoMemory {
     checkDuplicatedProduct = async (code) =>{
-      let result = await productModel.find({code: code})
+      let result = await productModel.find({code: code}).maxTimeMS(20000)
       if(result.length > 0){
           return true
       }
@@ -21,8 +21,8 @@ class ProductsDaoMemory {
       if(product_duplicated==true){
           throw new Error("Product with duplicated code")
       }else{
-      await productModel.create(product);
-      return product
+      let new_product = await productModel.create(product);
+      return new_product
       }
   }
   getProductById = async(idProduct)=>{
