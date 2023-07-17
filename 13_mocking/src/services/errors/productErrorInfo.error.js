@@ -1,6 +1,6 @@
 export const generateProductErrorInfo = (product) =>{
     return `
-    Some of the fields to create the user are not valid:
+    Some of the fields to create the product are not valid:
     List of required fields:
     title: Must be a string field, but received ${product.title},
     description: Must be a string field, but received ${product.description},
