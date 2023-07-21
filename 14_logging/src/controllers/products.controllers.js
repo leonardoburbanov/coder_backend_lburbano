@@ -91,6 +91,7 @@ class ProductsController {
           nextLink: nextLink
       })
       }catch(error){
+          req.logguer.error(error.message);
           res.status(400).send({error:error.message});
       }
   };
@@ -108,6 +109,7 @@ class ProductsController {
       }
       res.send(response)
     }catch(error){
+      req.logguer.error(error.message);
       res.status(400).send({error:error.message});
     }
   }
@@ -128,6 +130,7 @@ class ProductsController {
             message: "Product create error",
             errorCode: EError.INVALID_JSON
         });
+        req.logguer.error(error.message);
         res.status(400).send({error:error.message});
         }
     }
@@ -138,6 +141,7 @@ class ProductsController {
             let products = await productsService.updateProduct(idProduct,productUpdate)
             res.send({products})
         }catch(error){
+            req.logguer.error(error.message);
             res.status(400).send({error:error.message});
         }
     }
@@ -147,6 +151,7 @@ class ProductsController {
             let product_deleted = await productsService.deleteProduct(idProduct)
             res.send({product_deleted})
         }catch(error){
+            req.logguer.error(error.message);
             res.status(400).send({error:error.message});
         }
     }

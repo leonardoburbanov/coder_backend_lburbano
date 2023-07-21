@@ -26,18 +26,18 @@ const initializePassport = () => {
             /*try {*/
                 //Here goes the auth strategy
                 if(username==adminUser.username){
-                    console.log('El usuario ya existe')
+                    req.logger.debug('El usuario ya existe')
                     return done(null,false);
                 }else{
                     const exist = await userService.findOne({email:username});
                     if(exist){
-                        console.log('El usuario ya existe')
+                        req.logger.debug('El usuario ya existe')
                         return done(null,false);
                     }
                     const user = {
                         first_name, last_name, email, rol, age, password: createHash(password)
                     };
-                    console.log(user)
+                    req.logger.debug(user)
                     const result = await userService.create(user);
                     return done(null, result);
                 }
@@ -66,14 +66,14 @@ const initializePassport = () => {
             if(username === adminUser.email && password === adminUser.password){
                 
                 let user = adminUser
-                console.log('User logged',user)
-                console.log("Llega aquí")
+                req.logger.debug('User logged',user)
+                req.logger.debug("Llega aquí")
                 return done(null,user);
             }else{
                 const user = await userService.findOne({email:username})
-                console.log('User logged:',user)
+                req.logger.debug('User logged:',user)
                 if(!user){
-                    console.log('No existe el usuario');
+                    req.logger.debug('No existe el usuario');
                     return done(null, false);
                 }
                 
@@ -98,7 +98,7 @@ const initializePassport = () => {
     }, async (accessToken, refreshToken,profile,done)=>{
         try {
             
-            console.log(profile); //vemos toda la info que viene del profile
+            req.logger.debug(profile); //vemos toda la info que viene del profile
             let user = await userService.findOne({email: profile._json.email})
             if(!user){
 
@@ -114,7 +114,7 @@ const initializePassport = () => {
                         githubProfile: JSON.stringify(profile._json,null,3)
                 }
                 const result = await userService.create(newUser);
-                console.log('User registered',result)
+                req.logger.debug('User registered',result)
                 done(null,result)
             }else{
                 //ya existe

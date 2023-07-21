@@ -21,6 +21,9 @@ import chatService from "./services/chat.service.js"
 
 import { errorHandler } from "./middlewares/errohandler.middleware.js";
 
+import { addLogger } from "./logger/logger.js";
+
+
 const PORT = config.server.port;
 const MONGO = config.mongo.url;
 const SECRET = config.session.secret;
@@ -52,6 +55,8 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname+'/views');
 app.set('view engine', 'handlebars');
 
+app.use(errorHandler);
+app.use(addLogger);
 
 const server = app.listen(PORT, ()=>{
     console.log('Servidor funcionando en el puerto: ' + PORT);
@@ -79,7 +84,9 @@ app.use('/api/carts', cartRouter);
 app.use("/", viewRouter);
 app.use('/api/session', sessionRouter);
 app.use('/mockingproducts', mockingRouter);
-app.use(errorHandler);
+
+
+
 
 socketServer.on("connection",async(socketConnected)=>{
     console.log(`Nuevo cliente conectado ${socketConnected.id}`);

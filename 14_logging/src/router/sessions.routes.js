@@ -10,12 +10,12 @@ const router = Router();
 router.post('/register', passport.authenticate('register', { failureRedirect:'/failregister'} ),async (req, res) =>{
     let to_email = req.user.email
     let result = await registerConfirmation(to_email)
-    console.log('Email result: ',result)
+    req.logger.debug('Email result: ',result)
     res.send({status:"success", message:"User registered"});
 })
 
 router.get('/failregister', async (req,res)=>{
-    console.log('Fallo en el registro');
+    req.logger.debug('Fallo en el registro');
     res.send({error: 'Error en el registro'})
 })
 
@@ -33,7 +33,7 @@ router.post('/login', passport.authenticate('login',{failureRedirect:'/api/sessi
 
 router.get('/faillogin', async (req,res)=>{
 
-    console.log('Fallo en el ingreso');
+    req.logger.debug('Fallo en el ingreso');
     res.send({error: 'Error en el ingreso'})
 
 })
@@ -63,7 +63,7 @@ router.get('/githubcallback', passport.authenticate('github',{failureRedirect:'/
         rol: req.user.rol,
         githubProfile: req.user.githubProfile
     }
-    console.log('UserGithub',req.user)
+    req.logger.debug('UserGithub',req.user)
     res.redirect('/')
 
 })

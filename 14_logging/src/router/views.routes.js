@@ -104,5 +104,16 @@ router.get("/chat",(req,res)=>{
     res.render("chat");
 });
 
+
+router.get("/loggerTest", (req,res)=>{
+    req.logger.debug("Level debug");
+    req.logger.http("Level http");
+    req.logger.info("Level info");
+    req.logger.warn("Level warn");
+    req.logger.error("Level error");
+    req.logger.fatal("Level fatal");
+    res.json({"test":"Logger levels"})
+  });
+
 export default router;
 
