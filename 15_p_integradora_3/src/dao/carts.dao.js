@@ -1,5 +1,6 @@
 import productsDaoMemory from "./products.dao.js";
 import cartModel from "./models/carts.model.js";
+import userModel from '../dao/models/User.model.js'
 
 class CartsDaoMemory {
   deleteProductInCart = async (id_cart, id_product) => {
@@ -20,31 +21,35 @@ class CartsDaoMemory {
         return cart
         }
   }
-  addProductInCart = async (id_cart, id_product) => {
+  addProductInCart = async (id_cart, id_product, userEmail, userRol) => {
       const productExists = await productsDaoMemory.getProductById(id_product)
       if(!productExists){
           throw Error('Product not exists.');
       }else{
-      let cart_found = await cartModel.find({_id:id_cart})
-      if(!cart_found[0]){
-          throw Error('Cart not exists.');
-          return;
-      }else{
-          let productsInCart = cart_found[0].products;
-          const productIndex = productsInCart.findIndex(product => product.product._id == id_product)
-          if(productIndex !== -1){
-              productsInCart[productIndex].quantity = productsInCart[productIndex].quantity + 1
-          }else{
-              let product = {
-                  product: id_product,
-                  quantity : 1
-              }
-              productsInCart.push(product)
-          }
-          await cartModel.updateOne({_id:id_cart},{$set:{products:productsInCart}});
-          let cart = await cartModel.find({_id:id_cart});
-          return cart
-          }
+        let cart_found = await cartModel.find({_id:id_cart})
+        if(!cart_found[0]){
+            throw Error('Cart not exists.');
+            return;
+        }else{
+            if((userRol == 'premium' & userEmail != productExists.owner) | userRol == 'user' | userRol == 'admin'){
+                let productsInCart = cart_found[0].products;
+                const productIndex = productsInCart.findIndex(product => product.product._id == id_product)
+                if(productIndex !== -1){
+                    productsInCart[productIndex].quantity = productsInCart[productIndex].quantity + 1
+                }else{
+                    let product = {
+                        product: id_product,
+                        quantity : 1
+                    }
+                    productsInCart.push(product)
+                }
+                await cartModel.updateOne({_id:id_cart},{$set:{products:productsInCart}});
+                let cart = await cartModel.find({_id:id_cart});
+                return cart
+            }else{
+                throw Error('Not allowed to execute this operation.');
+            }
+        }            
       }
       
   }

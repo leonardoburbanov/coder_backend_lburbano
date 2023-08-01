@@ -14,8 +14,8 @@ class ProductsService {
   updateProduct(idProduct,newProduct){
     return productsDaoMemory.updateProduct(idProduct,newProduct);
   }
-  deleteProduct(idProduct){
-    return productsDaoMemory.deleteProduct(idProduct);
+  deleteProduct(idProduct, owner, userRole){
+    return productsDaoMemory.deleteProduct(idProduct, owner, userRole);
   }
 }
 

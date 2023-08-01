@@ -66,14 +66,10 @@ const initializePassport = () => {
             if(username === adminUser.email && password === adminUser.password){
                 
                 let user = adminUser
-                req.logger.debug('User logged',user)
-                req.logger.debug("Llega aquí")
                 return done(null,user);
             }else{
                 const user = await userService.findOne({email:username})
-                req.logger.debug('User logged:',user)
                 if(!user){
-                    req.logger.debug('No existe el usuario');
                     return done(null, false);
                 }
                 

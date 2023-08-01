@@ -48,13 +48,16 @@ class ProductsDaoMemory {
           return;
       }
   }
-  deleteProduct = async(id_product)=>{
-      let products = await this.getProducts();
+  deleteProduct = async(id_product, owner, userRole)=>{
       let product_found = await productModel.find({_id:id_product});
-      if(product_found){
-          const result = await productModel.deleteOne({_id:id_product});
-          products = await this.getProducts();
-          return product_found;   
+      if(product_found.length > 0){
+        if(product_found[0]["owner"]==owner || userRole == 'admin'){
+            const result = await productModel.deleteOne({_id:id_product});
+            return product_found;   
+        }else{
+          throw new Error('Error in delete operation. User rol not allowed.')
+          return;
+        }
       }else{
           throw new Error('Error in delete operation. Product not found.')
           return;

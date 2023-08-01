@@ -6,6 +6,7 @@ import TicketModel from "../dao/models/ticket.model.js";
 import { sendMessage } from "../messages/sms/twilio.js"
 import { ticketConfirmation } from '../messages/email/nodemailer.js';
 
+
 class Cart {
     constructor(products = []) {
       this.products = products;
@@ -13,7 +14,7 @@ class Cart {
   }
 
 
-class ProductsController {
+class CartsController {
   getCarts = async (req, res) => {
     let limit;
     let carts = await cartsService.getCarts()
@@ -56,8 +57,11 @@ class ProductsController {
   addProductInCart= async (req, res) => {
     const idcart = req.params.idcart;
     const idproduct = req.params.idproduct;
+    const userEmail = req.user.email;
+    const userRol = req.user.rol;
+
     try {
-        let carts = await cartsService.addProductInCart(idcart,idproduct)
+        let carts = await cartsService.addProductInCart(idcart,idproduct, userEmail, userRol)
         res.send(carts)
     }catch(error){
         res.status(400).send({error:error.message})
@@ -148,4 +152,4 @@ class ProductsController {
     } 
 }
 
-export default ProductsController;
+export default CartsController;

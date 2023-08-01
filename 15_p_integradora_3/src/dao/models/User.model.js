@@ -10,7 +10,9 @@ const schema = new mongoose.Schema({
     password:String,
     rol: {
         type: String,
-        default: 'user'
+        required:true,
+        enum:["user","admin","premium"],
+        default: 'user',
     },
     githubProfile: { type: Object, required: false },
     cart: {
@@ -19,7 +21,7 @@ const schema = new mongoose.Schema({
     }
 })
 schema.pre('find', function(){
-    this.populate("carts.cart");
+    this.populate("cart");
 })
 const userModel = mongoose.model(collection, schema);
 

@@ -4,8 +4,8 @@ class CartsService {
     deleteProductInCart(id_cart,id_product) {
         return cartsDaoMemory.deleteProductInCart(id_cart,id_product);
     }
-    addProductInCart(id_cart,id_product) {
-        return cartsDaoMemory.addProductInCart(id_cart,id_product);
+    addProductInCart(id_cart,id_product, userEmail, userRol) {
+        return cartsDaoMemory.addProductInCart(id_cart,id_product, userEmail, userRol);
     }
     updateProductInCart(id_cart, id_product, quantity) {
         return cartsDaoMemory.updateProductInCart(id_cart, id_product, quantity);

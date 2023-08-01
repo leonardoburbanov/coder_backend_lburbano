@@ -2,9 +2,10 @@ import productsService from "../services/products.service.js";
 import { CustomError } from "../services/errors/customError.service.js";
 import { EError } from "../enums/EError.js";
 import { generateProductErrorInfo } from "../services/errors/productErrorInfo.error.js";
+import userModel from "../dao/models/User.model.js";
 
 class Product {
-    constructor(title, description, price, thumbnail = null, code, stock, status = true, category) {
+    constructor(title, description, price, thumbnail = null, code, stock, status = true, category, owner = 'admin') {
       if (!title || !description || !price || !code || !stock) {
         throw new Error('All main fields required: title, description, price, code, stock');
       }
@@ -16,6 +17,7 @@ class Product {
       this.stock = stock;
       this.status = status;
       this.category = category;
+      this.owner = owner;
     }
   }
 
@@ -91,7 +93,6 @@ class ProductsController {
           nextLink: nextLink
       })
       }catch(error){
-          req.logguer.error(error.message);
           res.status(400).send({error:error.message});
       }
   };
@@ -109,20 +110,39 @@ class ProductsController {
       }
       res.send(response)
     }catch(error){
-      req.logguer.error(error.message);
       res.status(400).send({error:error.message});
     }
   }
 
   addProduct = async (req, res) => {
-    const {title, description, price, thumbnail, code, stock, status , category} = req.body;
+    const {title, description, price, thumbnail, code, stock, status , category, owner} = req.body;
+    const user = await userModel.findOne({email: owner})
+    if(!user){
+        res.status(400).send({error:error.message});
+    }
+    
     try {
-        let product = new Product(title, description, price, thumbnail, code, stock, status , category);
-        let new_product = await productsService.addProduct(product);
-        res.send({
-            data:new_product,
-            message:"Product created"
-        });
+        
+        if(owner){
+            if(user.rol=='premium' || user.rol=='admin'){
+                let product = new Product(title, description, price, thumbnail, code, stock, status , category, owner);
+                let new_product = await productsService.addProduct(product);
+                res.send({
+                    data:new_product,
+                    message:"Product created"
+                });
+            }else{
+                res.status(400).send({error:'Now allowed to execute this operation'});
+            }
+        }
+        else{
+            let product = new Product(title, description, price, thumbnail, code, stock, status , category);
+                let new_product = await productsService.addProduct(product);
+                res.send({
+                    data:new_product,
+                    message:"Product created"
+                });
+        }
     }catch(error){
         await CustomError.createError({
             name: "Product create error",
@@ -130,7 +150,6 @@ class ProductsController {
             message: "Product create error",
             errorCode: EError.INVALID_JSON
         });
-        req.logguer.error(error.message);
         res.status(400).send({error:error.message});
         }
     }
@@ -147,11 +166,12 @@ class ProductsController {
     }
     deleteProduct= async (req, res) => {
         const idProduct = req.params.idProduct;
+        const ownerEmail = req.session.user.email;
+        const userRole = req.session.user.rol;
         try {
-            let product_deleted = await productsService.deleteProduct(idProduct)
+            let product_deleted = await productsService.deleteProduct(idProduct, ownerEmail, userRole)
             res.send({product_deleted})
         }catch(error){
-            req.logguer.error(error.message);
             res.status(400).send({error:error.message});
         }
     }

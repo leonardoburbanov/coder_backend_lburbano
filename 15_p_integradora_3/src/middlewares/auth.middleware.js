@@ -14,3 +14,12 @@ if (req.isAuthenticated() && req.user.role === 'user') {
     res.sendStatus(403);
 }
 };
+
+
+export const premiumMiddleware = (req, res, next) => {
+  if (req.isAuthenticated() && req.user.role === 'premium') {
+      return next();
+  } else {
+      res.sendStatus(403);
+  }
+  };

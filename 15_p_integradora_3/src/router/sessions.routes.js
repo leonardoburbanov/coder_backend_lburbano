@@ -4,6 +4,9 @@ import { Router } from 'express';
 import passport from 'passport';
 import usersService from '../services/users.service.js';
 import { registerConfirmation } from '../messages/email/nodemailer.js';
+import {sendRecoveryPass} from "../messages/email/nodemailer.js"
+import UserModel from "../dao/models/User.model.js";
+import { createHash, validatePassword, generateEmailToken, verifyEmailToken } from "../utils.js";
 
 const router = Router();
 
@@ -75,5 +78,55 @@ router.get('/logout', (req,res)=>{
         res.redirect('/');
     })
 })
+
+
+router.post("/forgot-password",async (req,res)=>{
+    //try {
+        const { email } = req.body;
+        //verifico si existe
+        const user = await UserModel.findOne({email:email})
+        console.log(user)
+        if(!user){
+            console.log("Llega aquí")
+            return res.send(`<div>Error, <a href="/forgot-password">Try again please!</a></div>`)
+        }
+        const token = generateEmailToken(email,1*60*60);
+        await sendRecoveryPass(email,token);
+        res.send("The email was sended, comeback  <a href='/login'>to login</a>")
+    /*} catch (error) {
+        return res.send(`<div>Error, <a href="/forgot-password">Try again please!!</a></div>`)
+
+    }*/
+});
+
+router.post("/reset-password", async (req,res)=>{
+    try {
+           const token = req.query.token;
+           const {email,newPassword}=req.body;
+           //validamos el token
+           const validEmail = verifyEmailToken(token) 
+           if(!validEmail){
+            return res.send(`The link is not valid already, please generate a new one: <a href="/forgot-password">New link</a>.`)
+           }
+           const user = await UserModel.findOne({email:email});
+           if(!user){
+            return res.send("The user is not registered.")
+           }
+           if(validatePassword(newPassword,user)){
+            return res.send("You can't use the same password.")
+           }
+           const userData = {
+            ...user._doc,
+            password:createHash(newPassword)
+           };
+           const userUpdate = await UserModel.findOneAndUpdate({email:email},userData);
+           res.render("login",{message:"Updated password!"})
+
+    } catch (error) {
+        res.send(error.message)
+    }
+});
+
+
 
 export default router;

@@ -1,7 +1,9 @@
 import {fileURLToPath} from 'url';
 import { dirname } from 'path';
+import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 import {Faker, en, es } from "@faker-js/faker";
+import { config } from "./config/config.js";
 
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 export const validatePassword = (password, user) => bcrypt.compareSync(password, user.password);
@@ -40,6 +42,20 @@ export const generateProducts = () => {
         products.push(product);
     }
     return products 
+}
+
+export const generateEmailToken = (email, expireTime)=>{
+    const token = jwt.sign({email},config.gmail.emailToken, {expiresIn:expireTime})
+    return token
+}
+
+export const verifyEmailToken = (token) =>{
+    try {
+        const info = jwt.verify(token,config.gmail.emailToken);
+        return info.email;
+    } catch (error) {
+        return null
+    }
 }
 
 export default __dirname;

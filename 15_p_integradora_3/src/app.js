@@ -9,6 +9,7 @@ import __dirname from './utils.js';
 import viewRouter from "./router/views.routes.js";
 import sessionRouter from './router/sessions.routes.js';
 import productRouter from './router/products.routes.js';
+import usersRouter from './router/users.routes.js';
 
 import mockingRouter from './router/mocking.routes.js';
 
@@ -84,6 +85,7 @@ app.use('/api/carts', cartRouter);
 app.use("/", viewRouter);
 app.use('/api/session', sessionRouter);
 app.use('/mockingproducts', mockingRouter);
+app.use('/api/users', usersRouter);
 
 
 
