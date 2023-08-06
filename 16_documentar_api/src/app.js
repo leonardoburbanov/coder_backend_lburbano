@@ -23,7 +23,8 @@ import chatService from "./services/chat.service.js"
 import { errorHandler } from "./middlewares/errohandler.middleware.js";
 
 import { addLogger } from "./logger/logger.js";
-
+import { swaggerSpecs } from "./config/docConfig.js";
+import swaggerUi from 'swagger-ui-express';
 
 const PORT = config.server.port;
 const MONGO = config.mongo.url;
@@ -86,7 +87,7 @@ app.use("/", viewRouter);
 app.use('/api/session', sessionRouter);
 app.use('/mockingproducts', mockingRouter);
 app.use('/api/users', usersRouter);
-
+app.use('/api/docs', swaggerUi.serve,swaggerUi.setup(swaggerSpecs));
 
 
 
