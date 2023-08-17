@@ -8,7 +8,7 @@ Testing avanzado
 - Carts: Leer, crear, eliminar
 - Sesiones: Login, registro, eliminar usuario
 - Añadir producto a cart
-3. Para ejecutar los tests: `npm start`
+3. Para revisar la documentación: `npm start`
 4. La documentación de la API se encuentra en: http://localhost:8080/api/docs
 
 

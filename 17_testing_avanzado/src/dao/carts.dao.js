@@ -84,7 +84,7 @@ class CartsDaoMemory {
   }
   addCart = async (cart) => {
     let cartAdded = await cartModel.create(cart);
-    console.log(cartAdded)
+    //console.log(cartAdded)
     return cartAdded
   }
   getCartById = async(id_cart)=>{
