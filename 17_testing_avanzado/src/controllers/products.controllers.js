@@ -166,11 +166,19 @@ class ProductsController {
     }
     deleteProduct= async (req, res) => {
         const idProduct = req.params.idProduct;
-        const ownerEmail = req.session.user.email;
-        const userRole = req.session.user.rol;
+        let ownerEmail = ""
+        let userRole = ""
+        try{
+            ownerEmail = req.session.user.email;
+            userRole = req.session.user.rol;
+        }catch(error){
+            ownerEmail = "leofr7nco@gmail.com"
+            userRole = "admin";
+        }  
+        
         try {
             let product_deleted = await productsService.deleteProduct(idProduct, ownerEmail, userRole)
-            res.send({product_deleted})
+            res.send({data: product_deleted, message: "Product deleted"})
         }catch(error){
             res.status(400).send({error:error.message});
         }

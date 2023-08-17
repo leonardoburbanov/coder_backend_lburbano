@@ -7,9 +7,9 @@ const router = Router();
 
 
 const adminAcces = (req,res,next) =>{
-    console.log(req.session.user.rol);
+    //console.log(req.session.user.rol);
     if(req.session.user.rol !== 'admin'){
-        console.log('Solo se admite rol Admin');
+        //console.log('Solo se admite rol Admin');
         return res.redirect('/');
     } 
     next();

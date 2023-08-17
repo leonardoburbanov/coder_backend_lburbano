@@ -14,7 +14,7 @@ router.post('/register', passport.authenticate('register', { failureRedirect:'/f
     let to_email = req.user.email
     let result = await registerConfirmation(to_email)
     req.logger.debug('Email result: ',result)
-    res.send({status:"success", message:"User registered"});
+    res.send({status:"Success", message:"User registered"});
 })
 
 router.get('/failregister', async (req,res)=>{
@@ -31,7 +31,7 @@ router.post('/login', passport.authenticate('login',{failureRedirect:'/api/sessi
         rol: req.user.rol
     }
 
-    res.send({status:"success", payload:req.user, message:"Primer logueo!!"})
+    res.send({status:"Success", payload:req.user, message:"Primer logueo!!"})
 })
 
 router.get('/faillogin', async (req,res)=>{
@@ -85,9 +85,9 @@ router.post("/forgot-password",async (req,res)=>{
         const { email } = req.body;
         //verifico si existe
         const user = await UserModel.findOne({email:email})
-        console.log(user)
+        //console.log(user)
         if(!user){
-            console.log("Llega aquí")
+            //console.log("Llega aquí")
             return res.send(`<div>Error, <a href="/forgot-password">Try again please!</a></div>`)
         }
         const token = generateEmailToken(email,1*60*60);

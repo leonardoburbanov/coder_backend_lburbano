@@ -9,6 +9,12 @@ class UsersService {
   async updateUserRol(uidUser){
     return usersDaoMemory.updateUserRol(uidUser);
   }
+  async getUserById(uidUser){
+    return usersDaoMemory.getUserById(uidUser);
+  }
+  async deleteUserById(uidUser){
+    return usersDaoMemory.deleteUserById(uidUser);
+  }
 }
 const usersService = new UsersService()
 export default usersService;

@@ -66,6 +66,32 @@ paths:
                 properties:
                   error:
                     type: string
+    post:
+      summary: Create a new product
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Successfully created a new product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
 
   /api/products/{idProduct}:
     get:
@@ -95,7 +121,6 @@ paths:
                 properties:
                   error:
                     type: string
-
     put:
       summary: Update a product by ID
       tags:

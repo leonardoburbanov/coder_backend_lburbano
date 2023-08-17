@@ -20,5 +20,26 @@ class UsersDaoMemory {
             return;
         }
     }
+    getUserById = async(uid_user)=>{
+        let user_found = await usersModel.find({_id:uid_user})
+        if(user_found){
+            return user_found;   
+        }else{
+            throw new Error('Error in search operation. User not found.')
+            return;
+        }
+    }
+
+    deleteUserById = async(uid_user)=>{
+        let user_found = await usersModel.find({_id:uid_user})
+        if(user_found){
+            await usersModel.deleteOne({_id:uid_user})
+            return user_found;   
+        }else{
+            throw new Error('Error in search operation. User not found.')
+            return;
+        }
+        
+    }
 }
 export default new UsersDaoMemory();

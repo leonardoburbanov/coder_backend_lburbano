@@ -89,7 +89,7 @@ app.use('/mockingproducts', mockingRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/docs', swaggerUi.serve,swaggerUi.setup(swaggerSpecs));
 
-
+export {app};
 
 socketServer.on("connection",async(socketConnected)=>{
     console.log(`Nuevo cliente conectado ${socketConnected.id}`);

@@ -83,9 +83,9 @@ class CartsDaoMemory {
       return carts
   }
   addCart = async (cart) => {
-      await cartModel.create(cart);
-      let carts = await this.getCarts();
-      return carts
+    let cartAdded = await cartModel.create(cart);
+    console.log(cartAdded)
+    return cartAdded
   }
   getCartById = async(id_cart)=>{
       let cart_found = await cartModel.find({_id:id_cart}).populate('products.product')
@@ -112,8 +112,8 @@ class CartsDaoMemory {
       if(cart_found.length!=0){
           let productsInCart = []
           await cartModel.updateOne({_id:id_cart},{$set:{products:productsInCart}});
-          let carts = this.getCarts();
-          return carts
+          let cartDeleted = cart_found
+          return cartDeleted
       }else{
           throw new Error('Error in delete operation. Cart not found.')
       }

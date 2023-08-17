@@ -2,7 +2,7 @@ import __dirname from "../utils.js";
 import swaggerJsDoc from "swagger-jsdoc";
 import path from "path";
 
-console.log(`${path.join(__dirname,"../src/docs/**/*.yaml")}`)
+//console.log(`${path.join(__dirname,"../src/docs/**/*.yaml")}`)
 const swaggerOptions = {
         definition:{
             openapi:"3.0.1",

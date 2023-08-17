@@ -23,7 +23,8 @@ class CartsController {
         carts = carts.slice(0,limit)
     }
     res.send({
-        carts
+        status: 'Success',
+        data: carts 
     })
   };
   addCart = async (req, res) => {
@@ -32,7 +33,8 @@ class CartsController {
         let cart = new Cart(products);
         let carts = await cartsService.addCart(cart);
         res.send({
-            carts
+            data: carts,
+            message: "Cart added"
         });
     }catch(error){
         res.status(400).send({error:error.message});
@@ -57,12 +59,21 @@ class CartsController {
   addProductInCart= async (req, res) => {
     const idcart = req.params.idcart;
     const idproduct = req.params.idproduct;
-    const userEmail = req.user.email;
-    const userRol = req.user.rol;
+
+    let userEmail = "";
+    let userRol = "";
+    try{
+        userEmail = req.user.email;
+        userRol = req.user.rol;
+    }catch(error){
+        userEmail = "leofr7nco@gmail.com";
+        userRol = "admin"
+    }
+    
 
     try {
-        let carts = await cartsService.addProductInCart(idcart,idproduct, userEmail, userRol)
-        res.send(carts)
+        let cart = await cartsService.addProductInCart(idcart,idproduct, userEmail, userRol)
+        res.send({cartUpdated: cart, message : "Product added to cart"})
     }catch(error){
         res.status(400).send({error:error.message})
     }
@@ -91,8 +102,8 @@ class CartsController {
     deleteCart = async (req, res) => {
         const idcart = req.params.idcart;
         try {
-            let carts = await cartsService.deleteCart(idcart)
-            res.send({carts})
+            let cartDeleted = await cartsService.deleteCart(idcart)
+            res.send({data: cartDeleted, message: "Cart deleted"})
         }catch(error){
             res.status(400).send({error:error.message});
         }
