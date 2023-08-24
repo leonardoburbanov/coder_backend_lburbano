@@ -21,34 +21,40 @@ class UsersController {
         }
     }
 
-    uploadDocument = async (req, res) => {
-        const { uid } = req.params;
-        const { file } = req;
-
+    static updateUserDocument = async (req,res) =>{
         try {
-            const user = await usersService.getUserById(uid);
-
-            // Determine the subfolder based on the fieldname
-            let subfolder = 'documents'; // Default subfolder
-            if (file.fieldname === 'profileImage') {
-                subfolder = 'profiles';
-            } else if (file.fieldname === 'productImage') {
-                subfolder = 'products';
+            const userId = req.params.uid
+            const user = await UserModel.findById(userId);
+            const identificacion = req.files['identificacion']?.[0] || null;
+            const domicilio = req.files['domicilio']?.[0] || null;
+            const estadoDeCuenta = req.files['estadoDeCuenta']?.[0] || null;
+            const docs = [];
+            if(identificacion){
+                docs.push({name:"identificacion", reference:identificacion.filename})
             }
+            if(domicilio){
+                docs.push({name:"domicilio", reference:domicilio.filename})
+            }
+            if(estadoDeCuenta){
+                docs.push({name:"estadoDeCuenta", reference:estadoDeCuenta.filename})
+            }
+            if(docs.length ===3){
+                user.status = "completo"
+            }else{
+                user.status = "incompleto"
+            }
+            user.documents = docs;
+            console.log(docs)
+            console.log("user")
+            console.log(user)
+            const userUpdate = await UserModel.findByIdAndUpdate(user._id,user)
 
-            // Update the user's documents and set the reference
-            user.documents.push({
-                name: file.originalname,
-                reference: `/${subfolder}/${file.filename}`
-            });
+            res.json({status:"success", message:"Documentos actualizados"})
 
-            await user.save();
-
-            return res.json(user);
         } catch (error) {
-            return res.status(500).json({ error: error.message });
+            console.log(error.message);
+            res.json({status:"error", message: "Hubo un error en la carga de los archivos."})
         }
     }
-
 }
 export default UsersController;
