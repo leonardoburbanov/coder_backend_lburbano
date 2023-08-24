@@ -41,5 +41,15 @@ class UsersDaoMemory {
         }
         
     }
+    updateUserLastConnectionByEmail = async (userEmail) => {
+        try {
+            const currentTimestamp = new Date();
+            await usersModel.updateOne({ email: userEmail }, { $set: { last_connection: currentTimestamp } });
+            const updatedUser = await usersModel.findOne({ email: userEmail });
+            return updatedUser;
+        } catch (error) {
+            throw new Error('Error in update operation. User not found or unable to update last_connection.');
+        }
+    }
 }
 export default new UsersDaoMemory();

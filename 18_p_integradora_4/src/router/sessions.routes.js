@@ -30,7 +30,7 @@ router.post('/login', passport.authenticate('login',{failureRedirect:'/api/sessi
         age: req.user.age,
         rol: req.user.rol
     }
-
+    await usersService.updateUserLastConnection(req.user.email)
     res.send({status:"Success", payload:req.user, message:"Primer logueo!!"})
 })
 
@@ -72,7 +72,8 @@ router.get('/githubcallback', passport.authenticate('github',{failureRedirect:'/
 })
 
 
-router.get('/logout', (req,res)=>{
+router.get('/logout', async (req,res)=>{
+    await usersService.updateUserLastConnection(req.session.email)
     req.session.destroy(err =>{
         if(err) return res.status(500).send({status:"error", error:"No pudo cerrar sesion"})
         res.redirect('/');

@@ -15,6 +15,9 @@ class UsersService {
   async deleteUserById(uidUser){
     return usersDaoMemory.deleteUserById(uidUser);
   }
+  async updateUserLastConnection(userEmail){
+    return usersDaoMemory.updateUserLastConnection(userEmail);
+  }
 }
 const usersService = new UsersService()
 export default usersService;
