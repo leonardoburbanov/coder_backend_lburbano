@@ -26,6 +26,16 @@ const schema = new mongoose.Schema({
     },
     documents: [documentSchema],
     last_connection: { type: Date, default: Date.now },
+    status:{
+        type:String,
+        require:true,
+        enums:["completo","incompleto","pendiente"],
+        default:"pendiente"
+    },
+    avatar:{
+        type:String,
+        default:""
+    }
 });
 
 schema.pre('find', function () {

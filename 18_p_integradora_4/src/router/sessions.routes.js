@@ -6,11 +6,11 @@ import usersService from '../services/users.service.js';
 import { registerConfirmation } from '../messages/email/nodemailer.js';
 import {sendRecoveryPass} from "../messages/email/nodemailer.js"
 import UserModel from "../dao/models/User.model.js";
-import { createHash, validatePassword, generateEmailToken, verifyEmailToken } from "../utils.js";
+import { createHash, validatePassword, generateEmailToken, verifyEmailToken, uploaderProfile } from "../utils.js";
 
 const router = Router();
 
-router.post('/register', passport.authenticate('register', { failureRedirect:'/failregister'} ),async (req, res) =>{
+router.post('/register',uploaderProfile.single("avatar") ,passport.authenticate('register', { failureRedirect:'/failregister'} ),async (req, res) =>{
     let to_email = req.user.email
     let result = await registerConfirmation(to_email)
     req.logger.debug('Email result: ',result)
@@ -30,7 +30,7 @@ router.post('/login', passport.authenticate('login',{failureRedirect:'/api/sessi
         age: req.user.age,
         rol: req.user.rol
     }
-    await usersService.updateUserLastConnection(req.user.email)
+    await usersService.updateUserLastConnectionByEmail(req.user.email)
     res.send({status:"Success", payload:req.user, message:"Primer logueo!!"})
 })
 
@@ -73,7 +73,7 @@ router.get('/githubcallback', passport.authenticate('github',{failureRedirect:'/
 
 
 router.get('/logout', async (req,res)=>{
-    await usersService.updateUserLastConnection(req.session.email)
+    await usersService.updateUserLastConnectionByEmail(req.session.email)
     req.session.destroy(err =>{
         if(err) return res.status(500).send({status:"error", error:"No pudo cerrar sesion"})
         res.redirect('/');

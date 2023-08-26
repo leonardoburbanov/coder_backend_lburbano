@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import {Faker, en, es } from "@faker-js/faker";
 import { config } from "./config/config.js";
 import multer from "multer";
-
+import path from "path";
 
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 export const validatePassword = (password, user) => bcrypt.compareSync(password, user.password);
@@ -63,8 +63,6 @@ export const verifyEmailToken = (token) =>{
 export default __dirname;
 
 
-//configuracion para guardar imagenes de usuarios
-
 const validFields = (body) => {
     const {name, email, password} = body;
     if(!name || !email || !password){
@@ -120,7 +118,7 @@ const productStorage= multer.diskStorage({
         cb(null,path.join(__dirname,"/multer/products/images"));
     },
     filename: function(req,file,cb) {
-        cb(null,`${req.body.code}-image-${file.originalname}`);
+        cb(null,`${req.params.idProduct}-image-${file.originalname}`);
     }
 })
 

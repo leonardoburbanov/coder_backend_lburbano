@@ -24,7 +24,7 @@ class UsersController {
     static updateUserDocument = async (req,res) =>{
         try {
             const userId = req.params.uid
-            const user = await UserModel.findById(userId);
+            const user = await usersService.getUserById(userId);
             const identificacion = req.files['identificacion']?.[0] || null;
             const domicilio = req.files['domicilio']?.[0] || null;
             const estadoDeCuenta = req.files['estadoDeCuenta']?.[0] || null;
@@ -47,7 +47,7 @@ class UsersController {
             console.log(docs)
             console.log("user")
             console.log(user)
-            const userUpdate = await UserModel.findByIdAndUpdate(user._id,user)
+            const userUpdate = await usersService.findByIdAndUpdate(user._id,user)
 
             res.json({status:"success", message:"Documentos actualizados"})
 

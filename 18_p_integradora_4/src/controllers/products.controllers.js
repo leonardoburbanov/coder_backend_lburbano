@@ -3,6 +3,7 @@ import { CustomError } from "../services/errors/customError.service.js";
 import { EError } from "../enums/EError.js";
 import { generateProductErrorInfo } from "../services/errors/productErrorInfo.error.js";
 import userModel from "../dao/models/User.model.js";
+import productModel from "../dao/models/products.model.js";
 
 class Product {
     constructor(title, description, price, thumbnail = null, code, stock, status = true, category, owner = 'admin') {
@@ -195,6 +196,20 @@ class ProductsController {
             response = {product}
         }
         res.send(response)
+    }
+
+    static updateProductImage = async (req, res) => {
+        const idProduct = req.params.idProduct;
+        console.log(req.files)
+        let productImage = req.files['productImage']?.[0] || null;
+        let product = await productsService.getProductById(idProduct)
+        const thumbnails = [];
+        if(productImage){
+            thumbnails.push({name: product.title, reference: productImage.filename})
+        }
+        product.thumbnail = thumbnails;
+        const productUpdate = await productModel.findByIdAndUpdate(idProduct,product)
+        res.json({status:"success", message:"Product image updated"})
     }
 }
 

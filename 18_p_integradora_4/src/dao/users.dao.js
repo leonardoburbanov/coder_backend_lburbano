@@ -11,19 +11,21 @@ class UsersDaoMemory {
             rol : new_rol
         }
         if(user_found && user_found[0].rol !='admin'){
-            
+            if(new_rol=="premium"&&user_found[0].status != "completo"){
+                throw new Error('User still have not all documents')
+                return;
+            }
             let result = await usersModel.updateOne({_id:uid_user},{$set:newUser})
-            let user_found = await usersModel.find({_id:uid_user})
-            return user_found;   
+            let new_user_found = await usersModel.find({_id:uid_user})
+            return new_user_found;   
         }else{
             throw new Error('Error in update operation. User not found or incorrect rol.')
-            return;
         }
     }
     getUserById = async(uid_user)=>{
         let user_found = await usersModel.find({_id:uid_user})
         if(user_found){
-            return user_found;   
+            return user_found[0];   
         }else{
             throw new Error('Error in search operation. User not found.')
             return;
@@ -50,6 +52,16 @@ class UsersDaoMemory {
         } catch (error) {
             throw new Error('Error in update operation. User not found or unable to update last_connection.');
         }
+    }
+    findByIdAndUpdate = async (uidUser,user) => {
+        //try {
+            console.log("uidUser",uidUser)
+            console.log("user",user)
+            let updatedUser = await usersModel.findByIdAndUpdate(uidUser,user);
+            return updatedUser;
+        /*} catch (error) {
+            throw new Error('Error in update operation.');
+        }*/
     }
 }
 export default new UsersDaoMemory();

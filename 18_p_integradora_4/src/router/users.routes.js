@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import UsersController from "../controllers/users.controllers.js";
-import { checkAuthenticated } from "../middlewares/auth.js";
+import { checkAuthenticated } from "../middlewares/auth.middleware.js";
 import { uploaderDocument } from "../utils.js";
 
 
@@ -16,7 +16,7 @@ router.put("/:uid/documents",
         [{name:"identificacion",maxCount:1},
         {name:"domicilio", maxCount:1},
         {name:"estadoDeCuenta", maxCount:1}]), 
-    UserController.updateUserDocument
+        UsersController.updateUserDocument
     )
 
 
