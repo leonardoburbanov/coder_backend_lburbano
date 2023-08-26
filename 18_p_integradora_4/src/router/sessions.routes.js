@@ -8,13 +8,14 @@ import {sendRecoveryPass} from "../messages/email/nodemailer.js"
 import UserModel from "../dao/models/User.model.js";
 import { createHash, validatePassword, generateEmailToken, verifyEmailToken, uploaderProfile } from "../utils.js";
 
+
 const router = Router();
 
-router.post('/register',uploaderProfile.single("avatar") ,passport.authenticate('register', { failureRedirect:'/failregister'} ),async (req, res) =>{
+router.post('/register', uploaderProfile.single('profile'),passport.authenticate('register', { failureRedirect:'/failregister'} ),async (req, res) =>{
     let to_email = req.user.email
     let result = await registerConfirmation(to_email)
     req.logger.debug('Email result: ',result)
-    res.send({status:"Success", message:"User registered"});
+    res.redirect("/");
 })
 
 router.get('/failregister', async (req,res)=>{

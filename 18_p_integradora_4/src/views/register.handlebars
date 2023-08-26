@@ -1,6 +1,6 @@
 <div>
         <h1>Registro</h1>
-        <form id="registerForm" enctype = "multipart/form-data">
+        <form method="post" action="/api/session/register" enctype="multipart/form-data">
             <label>Nombre</label>
             <input name="first_name">
             <label>Apellido</label>
@@ -14,12 +14,16 @@
             <label>Contraseña</label>
             <input type="password" name="password">
 
+            <br/><br/>
             <label>Avatar</label>
-            <input type="file" name="avatar">
-
-            <input type="submit">
-
+            <input type="file" placeholder="Imagen de perfil" name="profile">
+            <button type="submit">Register</button>
         </form>
+        
         <p>¿Ya tienes una cuenta? <a href="/">Ingrese aquí</a></p>
 </div>
-<script src="/js/register.js"></script>
+
+
+
+
+

@@ -89,11 +89,12 @@ const profileStorage = multer.diskStorage({
     },
     //el nombre del archivo que estamos guardando
     filename: function (req,file,cb) {
+        console.log("file---------------",file)
         cb(null,`${req.body.email}-perfil-${file.originalname}`)
     }
 })
 //Creamos el uploader de multer
-export const uploaderProfile = multer({storage:profileStorage,fileFilter:multerFilterProfile })
+export const uploaderProfile = multer({storage:profileStorage })
 
 //Configuracion para guardar documentos de los usuarios
 
